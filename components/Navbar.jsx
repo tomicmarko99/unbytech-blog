@@ -7,6 +7,7 @@ const Navbar = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
     const [dropdown, setDropdown] = useState(false);
+    const categories = ['Business', 'Technology', 'Crypto', 'Development', 'Marketing']
 
     useEffect(() => {
         const handleScroll = () => {
@@ -56,7 +57,7 @@ const Navbar = () => {
                     </button>
                     <div className={styles.navbar_navlinks}>
                         <div onMouseOver={handleDropdown} onMouseOut={handleMouseOut} className={styles.dropdown}><span>Categories</span>
-                        {dropdown ? <NavbarDropdown/> : ''}</div>
+                        {dropdown ? <NavbarDropdown dropdown={categories}/> : ''}</div>
                         <Link href='/'><span>About</span></Link>
                         <Link href='/'><span>Privacy</span></Link>
                         <Link href='/'><span>Business</span></Link>
