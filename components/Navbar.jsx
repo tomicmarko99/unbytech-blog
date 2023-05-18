@@ -8,6 +8,7 @@ const Navbar = () => {
     const [mobileMenu, setMobileMenu] = useState(false);
     const [dropdown, setDropdown] = useState(false);
     const categories = ['Business', 'Technology', 'Crypto', 'Development', 'Marketing']
+    const faqs = ['FAQ1', 'FAQ2']
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,12 +26,27 @@ const Navbar = () => {
         setMobileMenu(!mobileMenu)
     }
 
-    const handleDropdown = () => {
-        setDropdown(true);
+    const [dropdowns, setDropdowns] = useState([
+        { id: 1, isOpen: false },
+        { id: 2, isOpen: false },
+        { id: 3, isOpen: false },
+        // Add more objects for additional dropdowns
+      ]);
+    
+      const handleDropdown = (dropdownId) => {
+        setDropdowns((prevState) =>
+          prevState.map((dropdown) =>
+            dropdown.id === dropdownId ? { ...dropdown, isOpen: true } : dropdown
+          )
+        );
       };
     
-      const handleMouseOut = () => {
-        setDropdown(false);
+      const handleMouseOut = (dropdownId) => {
+        setDropdowns((prevState) =>
+          prevState.map((dropdown) =>
+            dropdown.id === dropdownId ? { ...dropdown, isOpen: false } : dropdown
+          )
+        );
       };
     return (
         <nav className={styles.navbar}>
@@ -56,12 +72,13 @@ const Navbar = () => {
                         <img src="/icons/navbar_menu.svg" alt="menu" />
                     </button>
                     <div className={styles.navbar_navlinks}>
-                        <div onMouseOver={handleDropdown} onMouseOut={handleMouseOut} className={styles.dropdown}><span>Categories</span>
-                        {dropdown ? <NavbarDropdown dropdown={categories}/> : ''}</div>
+                        <div onMouseOver={() => handleDropdown(1)} onMouseOut={() => handleMouseOut(1)} className={styles.dropdown}><span>Categories</span>
+                        {dropdowns[0].isOpen ? <NavbarDropdown path={'categories'} dropdown={categories} /> : null}</div>
                         <Link href='/'><span>About</span></Link>
                         <Link href='/'><span>Privacy</span></Link>
                         <Link href='/'><span>Business</span></Link>
-                        <Link href='/'><span>FAQs</span></Link>
+                        <div onMouseOver={() => handleDropdown(2)} onMouseOut={() => handleMouseOut(2)} className={styles.dropdown}><span>FAQs</span>
+                        {dropdowns[1].isOpen ? <NavbarDropdown path={'faqs'} dropdown={faqs} /> : null}</div>
                     </div>
                     <div className={styles.mobile_menu} style={mobileMenu ? { left: 0 } : {}}>
                         <div className={styles.mobile_navlinks} >
