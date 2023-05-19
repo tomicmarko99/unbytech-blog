@@ -123,6 +123,18 @@
     display: none;
 }
 
+.mobile_dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile_dropdown_links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
 /* Media Queries */
 
 @media(max-width: 720px) {

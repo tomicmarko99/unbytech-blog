@@ -6,7 +6,6 @@ import NavbarDropdown from './NavbarDropdown';
 const Navbar = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
-    const [dropdown, setDropdown] = useState(false);
     const categories = ['Business', 'Technology', 'Crypto', 'Development', 'Marketing']
     const faqs = ['FAQ1', 'FAQ2']
 
@@ -31,23 +30,33 @@ const Navbar = () => {
         { id: 2, isOpen: false },
         { id: 3, isOpen: false },
         // Add more objects for additional dropdowns
-      ]);
-    
-      const handleDropdown = (dropdownId) => {
+    ]);
+
+    const handleDropdown = (dropdownId) => {
         setDropdowns((prevState) =>
-          prevState.map((dropdown) =>
-            dropdown.id === dropdownId ? { ...dropdown, isOpen: true } : dropdown
-          )
+            prevState.map((dropdown) =>
+                dropdown.id === dropdownId ? { ...dropdown, isOpen: true } : dropdown
+            )
         );
-      };
-    
-      const handleMouseOut = (dropdownId) => {
+    };
+
+    const handleMouseOut = (dropdownId) => {
         setDropdowns((prevState) =>
-          prevState.map((dropdown) =>
-            dropdown.id === dropdownId ? { ...dropdown, isOpen: false } : dropdown
-          )
+            prevState.map((dropdown) =>
+                dropdown.id === dropdownId ? { ...dropdown, isOpen: false } : dropdown
+            )
         );
-      };
+    };
+
+    const handleDropdownToggle = (dropdownId) => {
+        setDropdowns((prevState) =>
+            prevState.map((dropdown) =>
+                dropdown.id === dropdownId
+                    ? { ...dropdown, isOpen: !dropdown.isOpen }
+                    : dropdown
+            )
+        );
+    };
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbar_box__1nb}>
@@ -73,19 +82,35 @@ const Navbar = () => {
                     </button>
                     <div className={styles.navbar_navlinks}>
                         <div onMouseOver={() => handleDropdown(1)} onMouseOut={() => handleMouseOut(1)} className={styles.dropdown}><span>Categories</span>
-                        {dropdowns[0].isOpen ? <NavbarDropdown path={'categories'} dropdown={categories} /> : null}</div>
+                            {dropdowns[0].isOpen ? <NavbarDropdown path={'categories'} dropdown={categories} /> : null}</div>
                         <Link href='/'><span>About</span></Link>
                         <Link href='/'><span>Privacy</span></Link>
                         <Link href='/'><span>Business</span></Link>
                         <div onMouseOver={() => handleDropdown(2)} onMouseOut={() => handleMouseOut(2)} className={styles.dropdown}><span>FAQs</span>
-                        {dropdowns[1].isOpen ? <NavbarDropdown path={'faqs'} dropdown={faqs} /> : null}</div>
+                            {dropdowns[1].isOpen ? <NavbarDropdown path={'faqs'} dropdown={faqs} /> : null}</div>
                     </div>
                     <div className={styles.mobile_menu} style={mobileMenu ? { left: 0 } : {}}>
                         <div className={styles.mobile_navlinks} >
                             <button className={styles.close_button} onClick={handleMobileMenu}>
                                 <img src="/icons/close.svg" alt="close" />
                             </button>
-                            <Link href='/' onClick={handleMobileMenu}><span>Categories</span></Link>
+                            <div
+                                onClick={() => handleDropdownToggle(1)}
+                                className={styles.mobile_dropdown}
+                            >
+                                <span>Categories</span>
+
+                                {dropdowns[0].isOpen ?
+                                    <div className={styles.mobile_dropdown_links}>
+                                        {categories.map((category, index) => (
+                                            <Link key={index} href={`/categories/${category.toLowerCase()}`}>
+                                                <span>{category}</span>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    : ''
+                                }
+                            </div>
                             <Link href='/' onClick={handleMobileMenu}><span>About</span></Link>
                             <Link href='/' onClick={handleMobileMenu}><span>Privacy</span></Link>
                             <Link href='/' onClick={handleMobileMenu}><span>Business</span></Link>
