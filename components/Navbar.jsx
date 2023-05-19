@@ -98,12 +98,12 @@ const Navbar = () => {
                                 onClick={() => handleDropdownToggle(1)}
                                 className={styles.mobile_dropdown}
                             >
-                                <span>Categories</span>
+                                <span>Categories {dropdowns[0].isOpen ? <img src='/icons/arrow_up.svg'/> : <img src='/icons/arrow_down.svg'/>}</span>
 
                                 {dropdowns[0].isOpen ?
                                     <div className={styles.mobile_dropdown_links}>
                                         {categories.map((category, index) => (
-                                            <Link key={index} href={`/categories/${category.toLowerCase()}`}>
+                                            <Link key={index} href={`/categories/${category.toLowerCase()}`} onClick={handleMobileMenu}>
                                                 <span>{category}</span>
                                             </Link>
                                         ))}
