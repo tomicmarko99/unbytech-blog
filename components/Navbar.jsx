@@ -6,6 +6,7 @@ import NavbarDropdown from './NavbarDropdown';
 const Navbar = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
+    const [search, setSearch] = useState(false)
     const categories = ['Business', 'Technology', 'Crypto', 'Development', 'Marketing']
     const faqs = ['FAQ1', 'FAQ2']
 
@@ -57,6 +58,10 @@ const Navbar = () => {
             )
         );
     };
+
+    const handleSearch = () => {
+        setSearch(!search)
+    }
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbar_box__1nb}>
@@ -98,7 +103,7 @@ const Navbar = () => {
                                 onClick={() => handleDropdownToggle(1)}
                                 className={styles.mobile_dropdown}
                             >
-                                <span>Categories {dropdowns[0].isOpen ? <img src='/icons/arrow_up.svg'/> : <img src='/icons/arrow_down.svg'/>}</span>
+                                <span>Categories {dropdowns[0].isOpen ? <img src='/icons/arrow_up.svg' /> : <img src='/icons/arrow_down.svg' />}</span>
 
                                 {dropdowns[0].isOpen ?
                                     <div className={styles.mobile_dropdown_links}>
@@ -120,9 +125,17 @@ const Navbar = () => {
 
 
                     <div className={styles.navbar_search}>
-                        <a href="/">
+                        <p><img src="/icons/search.svg" alt="search" /></p>
+                        <input type="text" placeholder='search' />
+                    </div>
+
+                    <div className={styles.navbar_search_mobile}>
+                        <button onClick={handleSearch}>
                             <img src="/icons/search.svg" alt="search" />
-                        </a>
+                        </button>
+                        {search ? <div className={styles.mobile_search_area}>
+                            <input type="text" placeholder='search' />
+                        </div> : ''}
                     </div>
                 </div>
             </div>
